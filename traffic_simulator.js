@@ -4,8 +4,12 @@ function setup() {
 
 blinkervar = 0;
 lightcounter = 0;
-changetime = 8.0;
+changetime = 6.0;
 paused = false;
+addtime = 6.0;
+addcounter = 0;
+
+lightchange_alg = 'one side';
 
 //lights
 light1 = 'green';
@@ -14,9 +18,9 @@ light3 = 'red';
 light4 = 'red';
 
 // l1in = y,clr,blinker
-var l1in = [360,'blue','right',260,'white','left',160,'yellow','none'];
-var l2in = [800,'orange','left',900,'green','left',1000,'red','none'];
-var l3in = [-50,'purple','none',50,'blue','right',200,'green','right'];
+var l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
+var l2in = [800,'blue','none',1000,'red','none'];
+var l3in = [-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
 var l4in = [300,'red','left',400,'green','right',500,'blue','left'];
 
 var l1out = [];
@@ -84,10 +88,8 @@ function drawcar(x,y,direction,clr,blinker){
     fill(0);
     rect(400+changerx,300+changery,25,66);
     if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(0,255,255);}
-    fill(0,0,255);
     rect(407.5+changerx,310+changery,10,40);
     rect(400+changerx,360+changery,25,20);
-    
     fill(255);
     stroke(255);
     strokeWeight(1);
@@ -147,24 +149,80 @@ function draw() {
   if (blinkervar > 45){
     blinkervar = 0;
   }
-  
   if (!paused){
     lightcounter += 1;
   }
-  if (lightcounter == 480){
-    light1 = 'yellow';
-    light2 = 'red';
-    light3 = 'red';
-    light4 = 'red';
-  } else if (lightcounter == 560){
-    light1 = 'red';
-    light2 = 'red';
-    light3 = 'red';
-    light4 = 'red';
-  } else if (lightcounter == 590){
-    light2 = 'green';
+  addcounter += 1;
+  if (addcounter == addtime*60){
+    
   }
   
+  let framediff = changetime*60;
+  
+  if (lightchange_alg == 'one side'){
+    if (lightcounter == framediff){
+      light1 = 'yellow';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';
+    } else if (lightcounter == framediff+60){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';
+    } else if (lightcounter == framediff+90){
+      light1 = 'red';
+      light2 = 'green';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if (lightcounter == framediff+90+framediff){
+      light1 = 'red';
+      light2 = 'yellow';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if (lightcounter == framediff+90+framediff+60){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if (lightcounter == framediff+90+framediff+90){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'green';
+      light4 = 'red';  
+    } else if (lightcounter == framediff+90+framediff+90+framediff){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'yellow';
+      light4 = 'red';  
+    } else if (lightcounter == framediff+90+framediff+90+framediff+60){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if (lightcounter == framediff+90+framediff+90+framediff+90){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'green';  
+    } else if  (lightcounter == framediff+90+framediff+90+framediff+90+framediff){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'yellow';  
+    } else if  (lightcounter == framediff+90+framediff+90+framediff+90+framediff+60){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if  (lightcounter == framediff+90+framediff+90+framediff+90+framediff+90){
+      light1 = 'green';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+      lightcounter = 0;
+    } 
+  }
     
   // Drawing the graphics
   fill(200);
@@ -222,7 +280,7 @@ function draw() {
       l1in.splice(i,1);
       l1in.splice(i+1,1);
       l1in.splice(i+2,1);
-    } else if (light1 == 'green' && !paused){
+    } else if ((l1in[i] < 275 || light1 == 'green') && !paused){
       l1in[i] = l1in[i]-1;
     }
     i += 3;
@@ -240,7 +298,7 @@ function draw() {
         l3out.push(l2in[i+1]);
         l3out.push('none');
       } else if (l2in[i+2] == 'left'){
-        l1out.push(l2in[i]-300);
+        l1out.push(l2in[i]-550);
         l1out.push(l2in[i+1]);
         l1out.push('none');
       } else {
@@ -251,8 +309,66 @@ function draw() {
       l2in.splice(i,1);
       l2in.splice(i+1,1);
       l2in.splice(i+2,1);
-    } else if (light2 == 'green' && !paused){
+    } else if (light2 != 'red' && !paused){
       l2in[i] = l2in[i]-1;
+    }
+    i += 3;
+  }
+  
+  i = 0;
+  while (i < l3in.length){
+    if (l3in[i] != ''){
+      drawcar(690,l3in[i],'down',l3in[i+1],l3in[i+2]);
+    }
+    
+    if (l3in[i] > 150 && l3in[i] != ''){
+      if (l3in[i+2] == 'right'){
+        l4out.push(l3in[i]+525);
+        l4out.push(l3in[i+1]);
+        l4out.push('none');
+      } else if (l3in[i+2] == 'left'){
+        l2out.push(l3in[i]+525);
+        l2out.push(l3in[i+1]);
+        l2out.push('none');
+      } else {
+        l1out.push(l3in[i]);
+        l1out.push(l3in[i+1]);
+        l1out.push('none');
+      }
+      l3in.splice(i,1);
+      l3in.splice(i+1,1);
+      l3in.splice(i+2,1);
+    } else if (light3 != 'red' && !paused){
+      l3in[i] = l3in[i]+1;
+    }
+    i += 3;
+  }
+  
+  i = 0;
+  while (i < l4in.length){
+    if (l4in[i] != ''){
+      drawcar(l4in[i],240,'right',l4in[i+1],l4in[i+2]);
+    }
+    
+    if (l4in[i] > 610 && l4in[i] != ''){
+      if (l4in[i+2] == 'right'){
+        l1out.push(l4in[i]-410);
+        l1out.push(l4in[i+1]);
+        l1out.push('none');
+      } else if (l4in[i+2] == 'left'){
+        l3out.push(l4in[i]-410);
+        l3out.push(l4in[i+1]);
+        l3out.push('none');
+      } else {
+        l2out.push(l4in[i]);
+        l2out.push(l4in[i+1]);
+        l2out.push('none');
+      }
+      l4in.splice(i,1);
+      l4in.splice(i+1,1);
+      l4in.splice(i+2,1);
+    } else if (light4 != 'red' && !paused){
+      l4in[i] = l4in[i]+1;
     }
     i += 3;
   }
@@ -357,8 +473,17 @@ function draw() {
   textSize(35);
   text('Simulation Controls',50,35);
   textSize(25);
-  text('Play/Pause          Reset',40,80);
+  text('Run/Pause          Reset',40,80);
+  fill(0,150,200);
+  text('Traffic light algorithm',40,150);
+  text('Light change time',40,260);
+  text(20);
+  fill(255);
+  text('One side at a time',40,200);
   
+  print(mouseX,mouseY) ;
+  fill(255);
+  rect(10,275,300,10);
  
 }
 
