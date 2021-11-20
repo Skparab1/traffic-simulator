@@ -19,7 +19,7 @@ light4 = 'red';
 
 // l1in = y,clr,blinker
 var l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
-var l2in = [800,'blue','none',1000,'red','none'];
+var l2in = [800,'blue','none',1000,'red','none',1150,'orange','none',1250,'green','right'];
 var l3in = [-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
 var l4in = [300,'red','left',400,'green','right',500,'blue','left'];
 
@@ -185,14 +185,13 @@ function draw() {
     lightcounter += 1;
   }
   addcounter += 1;
-  if (addcounter == 6*60){
+  if (addcounter == 10*60){
     print('pushed');
     let randadd = random(1,5);
-    if (randadd <= 3){
+    if (randadd <= 3 || true){
       l1in.push(400);
       l1in.push(randcolor());
       l1in.push(randblinker());
-    } else {
       l2in.push(1100);
       l2in.push(randcolor());
       l2in.push(randblinker());
@@ -410,7 +409,7 @@ function draw() {
       l2in.splice(i,1);
       l2in.splice(i+1,1);
       l2in.splice(i+2,1);
-    } else if ((light2 != 'red' || l2in > 775) && !paused){
+    } else if ((light2 != 'red' || l2in[i] < 775 || (l2in[i]-l2in[i-3] > 100 && l2in[i] > 775)) && !paused){
       l2in[i] = l2in[i]-1;
     }
     i += 3;
@@ -439,7 +438,7 @@ function draw() {
       l3in.splice(i,1);
       l3in.splice(i+1,1);
       l3in.splice(i+2,1);
-    } else if (light3 != 'red' && !paused){
+    } else if ((light3 != 'red' || l3in[i] > 100) && !paused){
       l3in[i] = l3in[i]+1;
     }
     i += 3;
@@ -468,7 +467,7 @@ function draw() {
       l4in.splice(i,1);
       l4in.splice(i+1,1);
       l4in.splice(i+2,1);
-    } else if (light4 != 'red' && !paused){
+    } else if ((light4 != 'red' || l4in[i] > 600) && !paused){
       l4in[i] = l4in[i]+1;
     }
     i += 3;
