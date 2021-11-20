@@ -3,13 +3,13 @@ function setup() {
 }
 
 blinkervar = 0;
-carx = 400;
+lightcounter = 0;
 
 //lights
-light1 = 'on';
-light2 = 'off';
-light3 = 'off';
-light4 = 'off';
+light1 = 'green';
+light2 = 'red';
+light3 = 'red';
+light4 = 'red';
 
 // l1in = y,clr,blinker
 var l1in = [360,'blue','right',260,'white','left',160,'yellow','none'];
@@ -140,7 +140,22 @@ function draw() {
   if (blinkervar > 45){
     blinkervar = 0;
   }
-  carx += 1;
+  
+  lightcounter += 1;
+  if (lightcounter == 500){
+    light1 = 'yellow';
+    light2 = 'red';
+    light3 = 'red';
+    light4 = 'red';
+  } else if (lightcounter == 560){
+    light1 = 'red';
+    light2 = 'red';
+    light3 = 'red';
+    light4 = 'red';
+  } else if (lightcounter == 590){
+    light2 = 'green';
+  }
+  
     
   // Drawing the graphics
   rect(375,0,750,windowHeight);
@@ -197,7 +212,7 @@ function draw() {
       l1in.splice(i,1);
       l1in.splice(i+1,1);
       l1in.splice(i+2,1);
-    } else if (light1 == 'on'){
+    } else if (light1 == 'green'){
       l1in[i] = l1in[i]-1;
     }
     i += 3;
@@ -209,26 +224,24 @@ function draw() {
       drawcar(l2in[i],190,'left',l2in[i+1],l2in[i+2]);
     }
     
-    if (l2in[i] < 210 && l2in[i] != ''){
+    if (l2in[i] < 750 && l2in[i] != ''){
       if (l2in[i+2] == 'right'){
-        l2out.push(l2in[i]+500);
-        l2out.push(l2in[i+1]);
-        l2out.push(l2in[i+2]);
-      } else if (l2in[i+2] == 'left'){
-        l4out.push(l2in[i]+500);
-        l4out.push(l2in[i+1]);
-        l4out.push(l2in[i+2]);
-      } else {
-        l3out.push(l2in[i]);
+        l3out.push(l2in[i]-550);
         l3out.push(l2in[i+1]);
         l3out.push(l2in[i+2]);
+      } else if (l2in[i+2] == 'left'){
+        l1out.push(l2in[i]-300);
+        l1out.push(l2in[i+1]);
+        l1out.push(l2in[i+2]);
+      } else {
+        l4out.push(l2in[i]);
+        l4out.push(l2in[i+1]);
+        l4out.push(l2in[i+2]);
       }
       l2in.splice(i,1);
       l2in.splice(i+1,1);
       l2in.splice(i+2,1);
-      print('l1in',l1in);
-      print('l3out',l3out);
-    } else if (light2 == 'on'){
+    } else if (light2 == 'green'){
       l2in[i] = l2in[i]-1;
     }
     i += 3;
@@ -269,30 +282,42 @@ function draw() {
   line(660,240,660,160);
   
   strokeWeight(1);
-  if (light1 == 'on'){
+  if (light1 == 'green'){
     fill(0,255,0);
     ellipse(760,160,20,20);
+  } else if (light1 == 'yellow'){
+    fill(255,255,0);
+    ellipse(750,160,20,20);
   } else {
     fill(255,0,0);
     ellipse(740,160,20,20);
   }
-  if (light2 == 'on'){
+  if (light4 == 'green'){
     fill(0,255,0);
     ellipse(800,260,20,20);
+  } else if (light4 == 'yellow'){
+    fill(255,255,0);
+    ellipse(800,250,20,20);
   } else {
     fill(255,0,0);
     ellipse(800,240,20,20);
   }
-  if (light3 == 'on'){
+  if (light3 == 'green'){
     fill(0,255,0);
     ellipse(710,300,20,20);
+  } else if (light3 == 'yellow'){
+    fill(255,255,0);
+    ellipse(700,300,20,20);
   } else {
     fill(255,0,0);
     ellipse(690,300,20,20);
   }
-  if (light4 == 'on'){
+  if (light2 == 'green'){
     fill(0,255,0);
     ellipse(660,185,20,20);
+  } else if (light2 == 'yellow'){
+    fill(255,255,0);
+    ellipse(660,190,20,20);
   } else {
     fill(255,0,0);
     ellipse(660,195,20,20);
