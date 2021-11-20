@@ -6,10 +6,10 @@ blinkervar = 0;
 lightcounter = 0;
 changetime = 6.0;
 paused = false;
-addtime = 6.0;
+addtime = 4.0;
 addcounter = 0;
 
-lightchange_alg = 'one side';
+lightchange_alg = 'two straights';
 
 //lights
 light1 = 'green';
@@ -28,6 +28,38 @@ var l2out = [];
 var l3out = [];
 var l4out = [];
 
+function randcolor(){
+  rc = random(1,8);
+  if (rc == 1){
+    rc = 'blue';
+  } else if (rc == 2){
+    rc = 'red';
+  } else if (rc == 3){
+    rc = 'green';
+  } else if (rc == 4){
+    rc = 'yellow';
+  } else if (rc == 5){
+    rc = 'orange';
+  } else if (rc == 6){
+    rc = 'white';
+  } else {
+    rc = 'purple';
+  }
+  return rc;
+}
+
+function randblinker(){
+  rb = random(1,4);
+  if (rb == 1){
+    rb = 'right';
+  } else if (rc == 2){
+    rb = 'left';
+  } else {
+    rb = 'none';
+  }
+  return rb;
+}
+
 function drawcar(x,y,direction,clr,blinker){
   let changerx = x-400;
   let changery = y-300;
@@ -36,7 +68,7 @@ function drawcar(x,y,direction,clr,blinker){
     fill(0);
     rect(400+changerx,300+changery,66,25);
     
-    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(0,255,255);}
+    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(255,0,255);}
     rect(410+changerx,308+changery,40,10);
     rect(460+changerx,300+changery,20,25);
     
@@ -62,7 +94,7 @@ function drawcar(x,y,direction,clr,blinker){
   } else if (direction == 'left'){
     fill(0);
     rect(400+changerx,300+changery,66,25);
-    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(0,255,255);}
+    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(255,0,255);}
     rect(415+changerx,308+changery,40,10);
     rect(380+changerx,300+changery,20,25);
     
@@ -87,7 +119,7 @@ function drawcar(x,y,direction,clr,blinker){
   } else if (direction == 'down'){
     fill(0);
     rect(400+changerx,300+changery,25,66);
-    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(0,255,255);}
+    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(255,0,255);}
     rect(407.5+changerx,310+changery,10,40);
     rect(400+changerx,360+changery,25,20);
     fill(255);
@@ -111,7 +143,7 @@ function drawcar(x,y,direction,clr,blinker){
   } else {
     fill(0);
     rect(400+changerx,300+changery,25,60);
-    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(0,255,255);}
+    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(255,0,255);}
     rect(407.5+changerx,310+changery,10,40);
     rect(400+changerx,280+changery,25,20);
     
@@ -153,8 +185,19 @@ function draw() {
     lightcounter += 1;
   }
   addcounter += 1;
-  if (addcounter == addtime*60){
-    
+  if (addcounter == 6*60){
+    print('pushed');
+    let randadd = random(1,5);
+    if (randadd <= 3){
+      l1in.push(400);
+      l1in.push(randcolor());
+      l1in.push(randblinker());
+    } else {
+      l2in.push(1100);
+      l2in.push(randcolor());
+      l2in.push(randblinker());
+    }
+    addcounter = 0;
   }
   
   let framediff = changetime*60;
@@ -222,6 +265,64 @@ function draw() {
       light4 = 'red';  
       lightcounter = 0;
     } 
+  } else if (lightchange_alg == 'stop and go'){
+    if (lightcounter < 120){
+      light1 = 'green';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if (lightcounter < 240){
+      light1 = 'red';
+      light2 = 'green';
+      light3 = 'red';
+      light4 = 'red'; 
+    } else if (lightcounter < 360){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'green';
+      light4 = 'red'; 
+    } else if (lightcounter < 480){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'green'; 
+    } else {
+      lightcounter = 0;
+    } 
+  } else if (lightchange_alg == 'two straights'){
+    if (lightcounter < framediff){
+      light1 = 'green';
+      light2 = 'red';
+      light3 = 'green';
+      light4 = 'red'; 
+    } else if (lightcounter < framediff+60){
+      light1 = 'yellow';
+      light2 = 'red';
+      light3 = 'yellow';
+      light4 = 'red'; 
+    } else if (lightcounter < framediff+90){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red'; 
+    } else if (lightcounter < framediff*2){
+      light1 = 'red';
+      light2 = 'green';
+      light3 = 'red';
+      light4 = 'green'; 
+    } else if (lightcounter < framediff*2+60){
+      light1 = 'red';
+      light2 = 'yellow';
+      light3 = 'red';
+      light4 = 'yellow'; 
+    } else if (lightcounter < framediff*2+90){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red'; 
+    } else {
+      lightcounter = 0;
+    } 
   }
     
   // Drawing the graphics
@@ -263,7 +364,7 @@ function draw() {
       drawcar(740,l1in[i],'up',l1in[i+1],l1in[i+2]);
     }
     
-    if (l1in[i] < 210 && l1in[i] != ''){
+    if (l1in[i] < 210 && l1in[i] != '' && lightchange_alg != 'two straights'){
       if (l1in[i+2] == 'right'){
         l2out.push(l1in[i]+500);
         l2out.push(l1in[i+1]);
@@ -280,7 +381,7 @@ function draw() {
       l1in.splice(i,1);
       l1in.splice(i+1,1);
       l1in.splice(i+2,1);
-    } else if ((l1in[i] < 275 || light1 == 'green') && !paused){
+    } else if (((l1in[i] < 275 || light1 == 'green') || (l1in[i]-l1in[i-3] > 100)) && !paused){
       l1in[i] = l1in[i]-1;
     }
     i += 3;
@@ -292,7 +393,7 @@ function draw() {
       drawcar(l2in[i],190,'left',l2in[i+1],l2in[i+2]);
     }
     
-    if (l2in[i] < 750 && l2in[i] != ''){
+    if (l2in[i] < 750 && l2in[i] != '' && lightchange_alg != 'two straights'){
       if (l2in[i+2] == 'right'){
         l3out.push(l2in[i]-550);
         l3out.push(l2in[i+1]);
@@ -309,7 +410,7 @@ function draw() {
       l2in.splice(i,1);
       l2in.splice(i+1,1);
       l2in.splice(i+2,1);
-    } else if (light2 != 'red' && !paused){
+    } else if ((light2 != 'red' || l2in > 775) && !paused){
       l2in[i] = l2in[i]-1;
     }
     i += 3;
@@ -321,7 +422,7 @@ function draw() {
       drawcar(690,l3in[i],'down',l3in[i+1],l3in[i+2]);
     }
     
-    if (l3in[i] > 150 && l3in[i] != ''){
+    if (l3in[i] > 150 && l3in[i] != '' && lightchange_alg != 'two straights'){
       if (l3in[i+2] == 'right'){
         l4out.push(l3in[i]+525);
         l4out.push(l3in[i+1]);
@@ -350,7 +451,7 @@ function draw() {
       drawcar(l4in[i],240,'right',l4in[i+1],l4in[i+2]);
     }
     
-    if (l4in[i] > 610 && l4in[i] != ''){
+    if (l4in[i] > 610 && l4in[i] != '' && lightchange_alg != 'two straights'){
       if (l4in[i+2] == 'right'){
         l1out.push(l4in[i]-410);
         l1out.push(l4in[i+1]);
