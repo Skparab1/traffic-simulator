@@ -5,7 +5,15 @@ function setup() {
 blinkervar = 0;
 carx = 400;
 
-var l1in = [
+//lights
+light1 = 'on';
+light2 = 'off';
+light3 = 'off';
+light4 = 'off';
+
+// l1in = y,clr,blinker
+var l1in = [360,'blue','right',260,'white','left',160,'yellow','none'];
+var l1out = [360,'red','right',260,'orange','left',160,'green','none'];
 
 function drawcar(x,y,direction,clr,blinker){
   let changerx = x-400;
@@ -107,8 +115,8 @@ function drawcar(x,y,direction,clr,blinker){
       ellipse(400+changerx,360+changery,5,5);
     } else if (blinkervar < 30 && blinker == 'left'){
       fill(255,200,0);
-      ellipse(425+changerx,325+changery,5,5);
-      ellipse(425+changerx,400+changery,5,5);
+      ellipse(425+changerx,285+changery,5,5);
+      ellipse(425+changerx,360+changery,5,5);
     }
   }
   
@@ -117,6 +125,7 @@ function drawcar(x,y,direction,clr,blinker){
 function draw() {
   
   //setting up the Screen
+  createCanvas(windowWidth,windowHeight);
   background(0);
   fill(200);
   strokeWeight(1);
@@ -129,7 +138,7 @@ function draw() {
   carx += 1;
     
   // Drawing the graphics
-  rect(375,0,750,420);
+  rect(375,0,750,windowHeight);
   fill(0,150,0);
   stroke(0);
   rect(375,0,300,175);
@@ -154,10 +163,24 @@ function draw() {
     i += 60;
   }
   
-  drawcar(carx,50,'right','red','left');
-  drawcar(carx,100,'left','green','left');
-  drawcar(500,carx-300,'down','green','left');
-  drawcar(700,carx-300,'up','orange','right');
+  // templates
+  //drawcar(carx,50,'right','red','left');
+  //drawcar(carx,100,'left','green','left');
+  //drawcar(500,carx-300,'down','green','left');
+  //drawcar(700,carx-300,'up','orange','right');
+  
+  i = 0;
+  while (i < l1in.length){
+    drawcar(740,l1in[i],'up',l1in[i+1],l1in[i+2]);
+    i += 3;
+  }
+  
+  i = 0;
+  while (i < l1out.length){
+    drawcar(690,l1out[i],'down',l1out[i+1],l1out[i+2]);
+    l1out[i] = l1out[i]+1;
+    i += 3;
+  }
   
   // drawing light graphics
   strokeWeight(6);
@@ -168,6 +191,13 @@ function draw() {
   line(740,300,660,300);
   line(660,240,660,160);
   
-  
+  strokeWeight(1);
+  if (light1 == 'on'){
+    fill(0,255,0);
+    ellipse(760,160,20,20);
+  } else {
+    fill(255,0,0);
+    ellipse(760,160,20,20);
+  }
   
 }
