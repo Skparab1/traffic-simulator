@@ -5,6 +5,8 @@ function setup() {
 blinkervar = 0;
 carx = 400;
 
+var l1in = [
+
 function drawcar(x,y,direction,clr,blinker){
   let changerx = x-400;
   let changery = y-300;
@@ -45,23 +47,24 @@ function drawcar(x,y,direction,clr,blinker){
     fill(255);
     stroke(255);
     strokeWeight(1);
-    line(400+changerx,300+changery+60,415+changerx,308+changery+60);
-    line(400+changerx,325+changery+60,415+changerx,318+changery+60);
-    line(465+changerx,300+changery+60,455+changerx,308+changery+60);
-    line(465+changerx,325+changery+60,455+changerx,318+changery+60);
+    line(400+changerx,300+changery+180+20,415+changerx,308+changery+180+20);
+    line(400+changerx,325+changery+180+20,415+changerx,318+changery+180+20);
+    line(465+changerx,300+changery+180+20,455+changerx,308+changery+180+20);
+    line(465+changerx,325+changery+180+20,455+changerx,318+changery+180+20);
     
     if (blinkervar < 30 && blinker == 'right'){
       fill(255,200,0);
-      ellipse(400+changerx-10,300+changery+60,5,5);
-      ellipse(475+changerx-10,300+changery+60,5,5);
+      ellipse(400+changerx-10,300+changery+200,5,5);
+      ellipse(475+changerx-10,300+changery+200,5,5);
     } else if (blinkervar < 30 && blinker == 'left'){
       fill(255,200,0);
-      ellipse(400+changerx-10,325+changery+60,5,5);
-      ellipse(475+changerx-10,325+changery+60,5,5);
+      ellipse(400+changerx-10,325+changery+200,5,5);
+      ellipse(475+changerx-10,325+changery+200,5,5);
     }
   } else if (direction == 'down'){
     fill(0);
     rect(400+changerx,300+changery,25,66);
+    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(0,255,255);}
     fill(0,0,255);
     rect(407.5+changerx,310+changery,10,40);
     rect(400+changerx,360+changery,25,20);
@@ -82,6 +85,30 @@ function drawcar(x,y,direction,clr,blinker){
       fill(255,200,0);
       ellipse(425+changerx,300+changery,5,5);
       ellipse(425+changerx,375+changery,5,5);
+    }
+  } else {
+    fill(0);
+    rect(400+changerx,300+changery,25,60);
+    if (clr == 'blue'){ fill(0,0,255);} else if (clr == 'red'){ fill(255,0,0);} else if (clr == 'green'){ fill(0,255,0);} else if (clr == 'yellow'){ fill(255,255,0);} else if (clr == 'white'){ fill(255,255,255);} else if (clr == 'orange'){ fill(255,125,0);} else if (clr == 'purple'){ fill(0,255,255);}
+    rect(407.5+changerx,310+changery,10,40);
+    rect(400+changerx,280+changery,25,20);
+    
+    fill(255);
+    stroke(255);
+    strokeWeight(1);
+    line(400+changerx,300+changery,407.5+changerx,310+changery);
+    line(425+changerx,300+changery,417.5+changerx,310+changery);
+    line(400+changerx,360+changery,407.5+changerx,350+changery);
+    line(425+changerx,360+changery,417.5+changerx,350+changery);
+    
+    if (blinkervar < 30 && blinker == 'right'){
+      fill(255,200,0);
+      ellipse(400+changerx,285+changery,5,5);
+      ellipse(400+changerx,360+changery,5,5);
+    } else if (blinkervar < 30 && blinker == 'left'){
+      fill(255,200,0);
+      ellipse(425+changerx,325+changery,5,5);
+      ellipse(425+changerx,400+changery,5,5);
     }
   }
   
@@ -127,23 +154,10 @@ function draw() {
     i += 60;
   }
   
-  drawcar(carx,240,'right','red','left');
-  drawcar(500,240,'left','green','left');
-  drawcar(600,240,'down','green','left');
-  
-  fill(0);
-  rect(400,300,25,66);
-  fill(0,0,255);
-  rect(407.5,310,10,40);
-  rect(400,360,25,20);
-  
-  fill(255);
-  stroke(255);
-  strokeWeight(1);
-  line(400,300,407.5,310);
-  line(425,300,417.5,310);
-  line(400,360,407.5,350);
-  line(425,360,417.5,350);
+  drawcar(carx,50,'right','red','left');
+  drawcar(carx,100,'left','green','left');
+  drawcar(500,carx-300,'down','green','left');
+  drawcar(700,carx-300,'up','orange','right');
   
   // drawing light graphics
   strokeWeight(6);
