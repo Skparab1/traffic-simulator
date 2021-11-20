@@ -13,11 +13,12 @@ light4 = 'off';
 
 // l1in = y,clr,blinker
 var l1in = [360,'blue','right',260,'white','left',160,'yellow','none'];
+var l2in = [800,'orange','right',900,'green','left',1000,'red','none'];
 
-var l1out = [360,'red','right',260,'orange','left',160,'green','none'];
-var l2out = [500,'red','right',600,'orange','left',700,'green','none'];
+var l1out = [];
+var l2out = [];
 var l3out = [];
-var l4out = [360,'red','right',260,'orange','left',160,'green','none'];
+var l4out = [];
 
 function drawcar(x,y,direction,clr,blinker){
   let changerx = x-400;
@@ -115,12 +116,12 @@ function drawcar(x,y,direction,clr,blinker){
     
     if (blinkervar < 30 && blinker == 'right'){
       fill(255,200,0);
-      ellipse(400+changerx,285+changery,5,5);
-      ellipse(400+changerx,360+changery,5,5);
-    } else if (blinkervar < 30 && blinker == 'left'){
-      fill(255,200,0);
       ellipse(425+changerx,285+changery,5,5);
       ellipse(425+changerx,360+changery,5,5);
+    } else if (blinkervar < 30 && blinker == 'left'){
+      fill(255,200,0);
+      ellipse(400+changerx,285+changery,5,5);
+      ellipse(400+changerx,360+changery,5,5);
     }
   }
   
@@ -196,10 +197,39 @@ function draw() {
       l1in.splice(i,1);
       l1in.splice(i+1,1);
       l1in.splice(i+2,1);
-      print('l1in',l1in);
-      print('l3out',l3out);
     } else if (light1 == 'on'){
       l1in[i] = l1in[i]-1;
+    }
+    i += 3;
+  }
+  
+  i = 0;
+  while (i < l2in.length){
+    if (l2in[i] != ''){
+      drawcar(l2in[i],190,'left',l2in[i+1],l2in[i+2]);
+    }
+    
+    if (l2in[i] < 210 && l2in[i] != ''){
+      if (l2in[i+2] == 'right'){
+        l2out.push(l2in[i]+500);
+        l2out.push(l2in[i+1]);
+        l2out.push(l2in[i+2]);
+      } else if (l2in[i+2] == 'left'){
+        l4out.push(l2in[i]+500);
+        l4out.push(l2in[i+1]);
+        l4out.push(l2in[i+2]);
+      } else {
+        l3out.push(l2in[i]);
+        l3out.push(l2in[i+1]);
+        l3out.push(l2in[i+2]);
+      }
+      l2in.splice(i,1);
+      l2in.splice(i+1,1);
+      l2in.splice(i+2,1);
+      print('l1in',l1in);
+      print('l3out',l3out);
+    } else if (light2 == 'on'){
+      l2in[i] = l2in[i]-1;
     }
     i += 3;
   }
