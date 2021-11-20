@@ -4,6 +4,8 @@ function setup() {
 
 blinkervar = 0;
 lightcounter = 0;
+changetime = 8.0;
+paused = false;
 
 //lights
 light1 = 'green';
@@ -13,7 +15,9 @@ light4 = 'red';
 
 // l1in = y,clr,blinker
 var l1in = [360,'blue','right',260,'white','left',160,'yellow','none'];
-var l2in = [800,'orange','right',900,'green','left',1000,'red','none'];
+var l2in = [800,'orange','left',900,'green','left',1000,'red','none'];
+var l3in = [-50,'purple','none',50,'blue','right',200,'green','right'];
+var l4in = [300,'red','left',400,'green','right',500,'blue','left'];
 
 var l1out = [];
 var l2out = [];
@@ -40,11 +44,12 @@ function drawcar(x,y,direction,clr,blinker){
     line(460+changerx,300+changery,450+changerx,308+changery);
     line(460+changerx,325+changery,450+changerx,318+changery);
     
-    if (blinkervar < 30 && blinker == 'right'){
+    if (blinkervar < 30 && (blinker == 'right' || paused)){
       fill(255,200,0);
       ellipse(400+changerx,300+changery,5,5);
       ellipse(475+changerx,300+changery,5,5);
-    } else if (blinkervar < 30 && blinker == 'left'){
+    } 
+    if (blinkervar < 30 && (blinker == 'left' || paused)){
       fill(255,200,0);
       ellipse(400+changerx,325+changery,5,5);
       ellipse(475+changerx,325+changery,5,5);
@@ -65,11 +70,12 @@ function drawcar(x,y,direction,clr,blinker){
     line(465+changerx,300+changery,455+changerx,308+changery);
     line(465+changerx,325+changery,455+changerx,318+changery);
     
-    if (blinkervar < 30 && blinker == 'right'){
+    if (blinkervar < 30 && (blinker == 'right' || paused)){
       fill(255,200,0);
       ellipse(400+changerx-10,300+changery,5,5);
       ellipse(475+changerx-10,300+changery,5,5);
-    } else if (blinkervar < 30 && blinker == 'left'){
+    } 
+    if (blinkervar < 30 && (blinker == 'left' || paused)){
       fill(255,200,0);
       ellipse(400+changerx-10,325+changery,5,5);
       ellipse(475+changerx-10,325+changery,5,5);
@@ -90,11 +96,12 @@ function drawcar(x,y,direction,clr,blinker){
     line(400+changerx,360+changery,407.5+changerx,350+changery);
     line(425+changerx,360+changery,417.5+changerx,350+changery);
     
-    if (blinkervar < 30 && blinker == 'right'){
+    if (blinkervar < 30 && (blinker == 'right' || paused)){
       fill(255,200,0);
       ellipse(400+changerx,300+changery,5,5);
       ellipse(400+changerx,375+changery,5,5);
-    } else if (blinkervar < 30 && blinker == 'left'){
+    }
+    if (blinkervar < 30 && (blinker == 'left' || paused)){
       fill(255,200,0);
       ellipse(425+changerx,300+changery,5,5);
       ellipse(425+changerx,375+changery,5,5);
@@ -114,11 +121,12 @@ function drawcar(x,y,direction,clr,blinker){
     line(400+changerx,360+changery,407.5+changerx,350+changery);
     line(425+changerx,360+changery,417.5+changerx,350+changery);
     
-    if (blinkervar < 30 && blinker == 'right'){
+    if (blinkervar < 30 && (blinker == 'right' || paused)){
       fill(255,200,0);
       ellipse(425+changerx,285+changery,5,5);
       ellipse(425+changerx,360+changery,5,5);
-    } else if (blinkervar < 30 && blinker == 'left'){
+    }
+    if (blinkervar < 30 && (blinker == 'left' || paused)){
       fill(255,200,0);
       ellipse(400+changerx,285+changery,5,5);
       ellipse(400+changerx,360+changery,5,5);
@@ -132,17 +140,18 @@ function draw() {
   //setting up the Screen
   createCanvas(windowWidth,windowHeight);
   background(0);
-  fill(200);
   strokeWeight(1);
-  
+   
   //updating variables
   blinkervar += 1;
   if (blinkervar > 45){
     blinkervar = 0;
   }
   
-  lightcounter += 1;
-  if (lightcounter == 500){
+  if (!paused){
+    lightcounter += 1;
+  }
+  if (lightcounter == 480){
     light1 = 'yellow';
     light2 = 'red';
     light3 = 'red';
@@ -158,6 +167,7 @@ function draw() {
   
     
   // Drawing the graphics
+  fill(200);
   rect(375,0,750,windowHeight);
   fill(0,150,0);
   stroke(0);
@@ -199,20 +209,20 @@ function draw() {
       if (l1in[i+2] == 'right'){
         l2out.push(l1in[i]+500);
         l2out.push(l1in[i+1]);
-        l2out.push(l1in[i+2]);
+        l2out.push('none');
       } else if (l1in[i+2] == 'left'){
         l4out.push(l1in[i]+500);
         l4out.push(l1in[i+1]);
-        l4out.push(l1in[i+2]);
+        l4out.push('none');
       } else {
         l3out.push(l1in[i]);
         l3out.push(l1in[i+1]);
-        l3out.push(l1in[i+2]);
+        l3out.push('none');
       }
       l1in.splice(i,1);
       l1in.splice(i+1,1);
       l1in.splice(i+2,1);
-    } else if (light1 == 'green'){
+    } else if (light1 == 'green' && !paused){
       l1in[i] = l1in[i]-1;
     }
     i += 3;
@@ -228,20 +238,20 @@ function draw() {
       if (l2in[i+2] == 'right'){
         l3out.push(l2in[i]-550);
         l3out.push(l2in[i+1]);
-        l3out.push(l2in[i+2]);
+        l3out.push('none');
       } else if (l2in[i+2] == 'left'){
         l1out.push(l2in[i]-300);
         l1out.push(l2in[i+1]);
-        l1out.push(l2in[i+2]);
+        l1out.push('none');
       } else {
         l4out.push(l2in[i]);
         l4out.push(l2in[i+1]);
-        l4out.push(l2in[i+2]);
+        l4out.push('none');
       }
       l2in.splice(i,1);
       l2in.splice(i+1,1);
       l2in.splice(i+2,1);
-    } else if (light2 == 'green'){
+    } else if (light2 == 'green' && !paused){
       l2in[i] = l2in[i]-1;
     }
     i += 3;
@@ -250,25 +260,33 @@ function draw() {
   i = 0;
   while (i < l1out.length){
     drawcar(690,l1out[i],'down',l1out[i+1],l1out[i+2]);
-    l1out[i] = l1out[i]+1;
+    if (!paused){
+      l1out[i] = l1out[i]+1;
+    }
     i += 3;
   }
   i = 0;
   while (i < l2out.length){
     drawcar(l2out[i],240,'right',l2out[i+1],l2out[i+2]);
-    l2out[i] = l2out[i]+1;
+    if (!paused){
+      l2out[i] = l2out[i]+1;
+    }
     i += 3;
   }
   i = 0;
   while (i < l3out.length){
     drawcar(740,l3out[i],'up',l3out[i+1],l3out[i+2]);
-    l3out[i] = l3out[i]-1;
+    if (!paused){
+      l3out[i] = l3out[i]-1;
+    }
     i += 3;
   }
   i = 0;
   while (i < l4out.length){
     drawcar(l4out[i],190,'left',l4out[i+1],l4out[i+2]);
-    l4out[i] = l4out[i]-1;
+    if (!paused){
+      l4out[i] = l4out[i]-1;
+    }
     i += 3;
   }
   
@@ -323,4 +341,32 @@ function draw() {
     ellipse(660,195,20,20);
   }
   
+  // display controls  
+  fill(0);
+  rect(0,0,375,windowHeight);
+  
+  if (paused){
+    fill(200,100,0);
+  } else {
+    fill(0,200,0);
+  }
+  rect(25,50,150,50);
+  fill(200,200,0);
+  rect(200,50,150,50);
+  fill(255);
+  textSize(35);
+  text('Simulation Controls',50,35);
+  textSize(25);
+  text('Play/Pause          Reset',40,80);
+  
+ 
+}
+
+function mouseClicked(){
+  if (mouseX > 200 && mouseX < 350 && mouseY > 50 && mouseY < 100){
+    location.reload();
+  }
+  if (mouseX > 25 && mouseX < 175 && mouseY > 50 && mouseY < 100){
+    paused = !paused;
+  }
 }
