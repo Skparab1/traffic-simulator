@@ -300,7 +300,7 @@ function draw() {
       lightcounter = 0;
     } 
   } else if (lightchange_alg == 'stop and go'){
-    if (lightcounter < 120){
+    if (lightcounter < 80){
       light1 = 'green';
       light2 = 'red';
       light3 = 'red';
