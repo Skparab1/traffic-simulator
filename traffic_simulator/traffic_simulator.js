@@ -7,19 +7,19 @@ function setup() {
 }
 
 blinkervar = 0;
-lightcounter = -1;
 changetime = 6.0;
 paused = false;
-addtime = 4.0;
+addtime = 10;
 addcounter = 0;
 tailgate = 100;
-carcount = 4; // wait for 4 cars to let go
+lightcounter = -1;
 smartrelease = 0;
 lastreleased = 0;
 timewaiting = 0;
 avgwaittime = 0;
 totalvehicles = 0;
-lightchange_alg = 'smart sensor';
+carcount = 4; // wait for 4 cars to let go
+lightchange_alg = 'two straights';
 
 //lights
 light1 = 'green';
@@ -32,19 +32,12 @@ var l2out = [];
 var l3out = [];
 var l4out = [];
 
-// l1in = y,clr,blinker
-
 var l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
 var l2in = [800,'blue','none',1000,'red','right',1150,'orange','right',1250,'green','right'];
 var l3in = [-350,'red','none',-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
 var l4in = [0,'red','left',400,'blue','left'];
 
 totalvehicles = l1in.length+l2in.length+l3in.length+l4in.length;
-
-var l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
-var l2in = [800,'blue','none',1000,'red','right',1150,'orange','right',1250,'green','right'];
-var l3in = [-350,'red','none',-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
-var l4in = [0,'red','left',400,'blue','left'];
 
 
 function randcolor(){
@@ -209,22 +202,28 @@ function draw() {
   avgwaittime = timewaiting/(l1in.length+l2in.length+l3in.length+l4in.length);
   
   addcounter += 1;
-  if (addcounter == 10*60){
+  if (addcounter == addtime*60){
     print('pushed');
-    let randadd = random(1,5);
-    if (randadd <= 3 || false){ // Vehicle pushing DISABLED
+    let randadd = random(1,6);
+    if (randadd == 2){
       l1in.push(500);
       l1in.push('red');
-      l1in.push('none');
+      l1in.push(randblinker());
+      totalvehicles += 1;
+    } else if (randadd == 3){
       l2in.push(1200);
-      l2in.push('red');
-      l2in.push('none');
+      l2in.push('blue');
+      l2in.push(randblinker());
+      totalvehicles += 1;
+    } else if (randadd == 4){
       l3in.push(-50);
-      l3in.push('red');
-      l3in.push('none');
+      l3in.push('green');
+      l3in.push(randblinker());
+      totalvehicles += 1;
+    } else if (randadd == 5){
       l4in.push(200);
-      l4in.push('red');
-      l4in.push('none');
+      l4in.push('yellow');
+      l4in.push(randblinker());
       totalvehicles += 1;
     }
     addcounter = 0;
@@ -234,61 +233,66 @@ function draw() {
   
   if (lightchange_alg == 'one side'){
     if (lightcounter < framediff){
-      light1 = 'yellow';
+      light1 = 'green';
       light2 = 'red';
       light3 = 'red';
       light4 = 'red';
     } else if (lightcounter < framediff+120){
-      light1 = 'red';
+      light1 = 'yellow';
       light2 = 'red';
       light3 = 'red';
       light4 = 'red';
     } else if (lightcounter < framediff+150){
       light1 = 'red';
-      light2 = 'green';
+      light2 = 'red';
       light3 = 'red';
       light4 = 'red';  
     } else if (lightcounter < framediff+150+framediff){
       light1 = 'red';
-      light2 = 'yellow';
+      light2 = 'green';
       light3 = 'red';
       light4 = 'red';  
     } else if (lightcounter < framediff+150+framediff+120){
       light1 = 'red';
-      light2 = 'red';
+      light2 = 'yellow';
       light3 = 'red';
       light4 = 'red';  
     } else if (lightcounter < framediff+150+framediff+150){
       light1 = 'red';
       light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if (lightcounter < framediff+150+framediff+180+framediff){
+      light1 = 'red';
+      light2 = 'red';
       light3 = 'green';
       light4 = 'red';  
-    } else if (lightcounter < framediff+150+framediff+150+framediff){
+    } else if (lightcounter < framediff+150+framediff+180+framediff+120){
       light1 = 'red';
       light2 = 'red';
       light3 = 'yellow';
-      light4 = 'red';  
-    } else if (lightcounter < framediff+150+framediff+150+framediff+120){
-      light1 = 'red';
-      light2 = 'red';
-      light3 = 'red';
       light4 = 'red';  
     } else if (lightcounter < framediff+150+framediff+150+framediff+150){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
-      light4 = 'green';  
-    } else if  (lightcounter < framediff+150+framediff+150+framediff+150+framediff){
+      light4 = 'red';  
+    } else if (lightcounter < framediff+150+framediff+150+framediff+150+framediff){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
-      light4 = 'yellow';  
+      light4 = 'green';  
     } else if  (lightcounter < framediff+150+framediff+150+framediff+150+framediff+120){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
-      light4 = 'red';  
+      light4 = 'yellow';  
     } else if  (lightcounter < framediff+150+framediff+150+framediff+150+framediff+150){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if  (lightcounter < framediff+150+framediff+150+framediff+150+framediff+180){
       light1 = 'green';
       light2 = 'red';
       light3 = 'red';
@@ -301,7 +305,12 @@ function draw() {
       light2 = 'red';
       light3 = 'red';
       light4 = 'red';  
-    } else if (lightcounter < 240){
+    } else if (lightcounter < 180){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if (lightcounter < 300){
       light1 = 'red';
       light2 = 'green';
       light3 = 'red';
@@ -309,9 +318,19 @@ function draw() {
     } else if (lightcounter < 360){
       light1 = 'red';
       light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';   
+    } else if (lightcounter < 480){
+      light1 = 'red';
+      light2 = 'red';
       light3 = 'green';
       light4 = 'red'; 
-    } else if (lightcounter < 480){
+    } else if (lightcounter < 540){
+      light1 = 'red';
+      light2 = 'red';
+      light3 = 'red';
+      light4 = 'red';  
+    } else if (lightcounter < 660){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
@@ -639,23 +658,59 @@ function draw() {
   rect(25,50,150,50);
   fill(200,200,0);
   rect(200,50,150,50);
+  rect(425,320,200,75);
   fill(255);
   textSize(35);
   text('Simulation Controls',50,35);
   textSize(25);
   text('Run/Pause          Reset',40,80);
+  text('Re-Run',470,365);
   fill(0,150,200);
   text('Traffic light algorithm',10,150);
   text('Results:',380,50);
   
   if (lightchange_alg == 'two straights' || lightchange_alg == 'one side'){
-    text('Light change time:  '+str(changetime)+ '  seconds',10,190);
+    text('Change light after '+str(changetime)+ ' seconds',10,240);
     fill(255);
-    rect(10,210,300,10);
-    rect(changetime*25+10,200,10,30);
+    rect(10,260,300,10);
+    rect(changetime*25+10,250,10,30);
   }
+  
+  fill(0,150,200);
+  text('Allow '+tailgate+ ' pixels tailgate',10,320);
+  fill(255);
+  rect(10,340,300,10);
+  rect((tailgate-90)*2.5,330,10,30);
+  
+  fill(0,150,200);
+  textSize(22);
+  text('Randomly add vehicle every '+round(addtime)+ ' sec',10,390);
+  fill(255);
+  rect(10,410,300,10);
+  rect(addtime*25+10,400,10,30);
+
   textSize(15);
   fill(255);
+  if (lightchange_alg == 'one side'){
+      text('Lets each side\'s vehicles travel,',10,180);
+      text('and then switches to the other sides',10,200);
+  }
+  if (lightchange_alg == 'two straights'){
+      text('Lets two opposite sides of traffic travel at the',10,180);
+      text('same time, and then switches to the opposite sides',10,200);
+  }
+  if (lightchange_alg == 'two straights'){
+      text('Lets two opposite sides of traffic travel at the',10,180);
+      text('same time, and then switches to the opposite sides',10,200);
+  }
+  if (lightchange_alg == 'stop and go'){
+      text('Replicates a stop sign. One (or more, based on time)',10,180);
+      text('vehicle from each side is allowed to go.',10,200);
+  }
+  if (lightchange_alg == 'smart sensor'){
+      text('Replicates a smart sensor system. Lets the side with',10,180);
+      text('most vehicles go, and then switches another side',10,200);
+  }
   text(lightchange_alg,245,150);
   
   stroke(0);
@@ -674,6 +729,23 @@ function mouseClicked(){
   if (mouseX > 25 && mouseX < 175 && mouseY > 50 && mouseY < 100){
     paused = !paused;
   }
+  if (mouseX > 425 && mouseX < 625 && mouseY > 320 && mouseY < 395){
+    l1out = [];
+    l2out = [];
+    l3out = [];
+    l4out = [];
+    l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
+    l2in = [800,'blue','none',1000,'red','right',1150,'orange','right',1250,'green','right'];
+    l3in = [-350,'red','none',-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
+    l4in = [0,'red','left',400,'blue','left'];
+    
+    totalvehicles = l1in.length+l2in.length+l3in.length+l4in.length;
+    lightcounter = -1;
+    smartrelease = 0;
+    lastreleased = 0;
+    timewaiting = 0;
+    avgwaittime = 0;
+  }
   if (mouseX < 375 && mouseY > 130 && mouseY < 175){
     if (lightchange_alg == 'two straights'){
       lightchange_alg = 'one side';
@@ -681,14 +753,20 @@ function mouseClicked(){
       lightchange_alg = 'stop and go';
     } else if (lightchange_alg == 'stop and go'){
       lightchange_alg = 'smart sensor';
-    } if (lightchange_alg == 'smart sensor'){
+    } else if (lightchange_alg == 'smart sensor'){
       lightchange_alg = 'two straights';
     }
   }
 }
 
 function mouseDragged(){
-  if (mouseX > 10 && mouseX < 310 && mouseY > 200 && mouseY < 230){
+  if (mouseX > 10 && mouseX < 310 && mouseY > 250 && mouseY < 280){
     changetime = (mouseX-10)/25;
+  }
+  if (mouseX > 10 && mouseX < 310 && mouseY > 330 && mouseY < 360){
+    tailgate = (mouseX)/2.5+90;
+  }
+  if (mouseX > 10 && mouseX < 310 && mouseY > 400 && mouseY < 430){
+    addtime = (mouseX-10)/25;
   }
 }
