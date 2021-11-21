@@ -8,6 +8,9 @@ changetime = 6.0;
 paused = false;
 addtime = 4.0;
 addcounter = 0;
+tailgate = 100;
+carcount = 4; // wait for 4 cars to let go
+smartrelease = 0;
 
 lightchange_alg = 'two straights';
 
@@ -21,7 +24,7 @@ light4 = 'red';
 var l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
 var l2in = [800,'blue','none',1000,'red','none',1150,'orange','none',1250,'green','right'];
 var l3in = [-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
-var l4in = [300,'red','left',400,'green','right',500,'blue','left'];
+var l4in = [0,'red','left',400,'blue','left'];
 
 var l1out = [];
 var l2out = [];
@@ -188,13 +191,19 @@ function draw() {
   if (addcounter == 10*60){
     print('pushed');
     let randadd = random(1,5);
-    if (randadd <= 3 || true){
-      l1in.push(400);
-      l1in.push(randcolor());
-      l1in.push(randblinker());
-      l2in.push(1100);
-      l2in.push(randcolor());
-      l2in.push(randblinker());
+    if (randadd <= 3 || false){ // Vehicle pushing DISABLED
+      l1in.push(500);
+      l1in.push('red');
+      l1in.push('none');
+      l2in.push(1200);
+      l2in.push('red');
+      l2in.push('none');
+      l3in.push(-50);
+      l3in.push('red');
+      l3in.push('none');
+      l4in.push(200);
+      l4in.push('red');
+      l4in.push('none');
     }
     addcounter = 0;
   }
@@ -207,57 +216,57 @@ function draw() {
       light2 = 'red';
       light3 = 'red';
       light4 = 'red';
-    } else if (lightcounter == framediff+60){
+    } else if (lightcounter == framediff+120){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
       light4 = 'red';
-    } else if (lightcounter == framediff+90){
+    } else if (lightcounter == framediff+150){
       light1 = 'red';
       light2 = 'green';
       light3 = 'red';
       light4 = 'red';  
-    } else if (lightcounter == framediff+90+framediff){
+    } else if (lightcounter == framediff+150+framediff){
       light1 = 'red';
       light2 = 'yellow';
       light3 = 'red';
       light4 = 'red';  
-    } else if (lightcounter == framediff+90+framediff+60){
+    } else if (lightcounter == framediff+150+framediff+120){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
       light4 = 'red';  
-    } else if (lightcounter == framediff+90+framediff+90){
+    } else if (lightcounter == framediff+150+framediff+150){
       light1 = 'red';
       light2 = 'red';
       light3 = 'green';
       light4 = 'red';  
-    } else if (lightcounter == framediff+90+framediff+90+framediff){
+    } else if (lightcounter == framediff+150+framediff+150+framediff){
       light1 = 'red';
       light2 = 'red';
       light3 = 'yellow';
       light4 = 'red';  
-    } else if (lightcounter == framediff+90+framediff+90+framediff+60){
+    } else if (lightcounter == framediff+150+framediff+150+framediff+120){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
       light4 = 'red';  
-    } else if (lightcounter == framediff+90+framediff+90+framediff+90){
+    } else if (lightcounter == framediff+150+framediff+150+framediff+150){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
       light4 = 'green';  
-    } else if  (lightcounter == framediff+90+framediff+90+framediff+90+framediff){
+    } else if  (lightcounter == framediff+150+framediff+150+framediff+150+framediff){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
       light4 = 'yellow';  
-    } else if  (lightcounter == framediff+90+framediff+90+framediff+90+framediff+60){
+    } else if  (lightcounter == framediff+150+framediff+150+framediff+150+framediff+120){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
       light4 = 'red';  
-    } else if  (lightcounter == framediff+90+framediff+90+framediff+90+framediff+90){
+    } else if  (lightcounter == framediff+150+framediff+150+framediff+150+framediff+150){
       light1 = 'green';
       light2 = 'red';
       light3 = 'red';
@@ -294,27 +303,27 @@ function draw() {
       light2 = 'red';
       light3 = 'green';
       light4 = 'red'; 
-    } else if (lightcounter < framediff+60){
+    } else if (lightcounter < framediff+120){
       light1 = 'yellow';
       light2 = 'red';
       light3 = 'yellow';
       light4 = 'red'; 
-    } else if (lightcounter < framediff+90){
+    } else if (lightcounter < framediff+150){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
       light4 = 'red'; 
-    } else if (lightcounter < framediff*2){
+    } else if (lightcounter < framediff*3){
       light1 = 'red';
       light2 = 'green';
       light3 = 'red';
       light4 = 'green'; 
-    } else if (lightcounter < framediff*2+60){
+    } else if (lightcounter < framediff*3+120){
       light1 = 'red';
       light2 = 'yellow';
       light3 = 'red';
       light4 = 'yellow'; 
-    } else if (lightcounter < framediff*2+90){
+    } else if (lightcounter < framediff*3+150){
       light1 = 'red';
       light2 = 'red';
       light3 = 'red';
@@ -322,6 +331,23 @@ function draw() {
     } else {
       lightcounter = 0;
     } 
+  } else if (lightchange_alg == 'smart sensor' && lightcounter == 0){
+    if (Math.max(l1in.length,l2in.length,l3in.length,l4in.length) == l1in.length){
+      smartrelease = 1;
+    } else if (Math.max(l1in.length,l2in.length,l3in.length,l4in.length) == l2in.length){
+      smartrelease = 1;
+    } else if (Math.max(l1in.length,l2in.length,l3in.length,l4in.length) == l3in.length){
+      smartrelease = 1;
+    } else if (Math.max(l1in.length,l2in.length,l3in.length,l4in.length) == l4in.length){
+      smartrelease = 1;
+    }
+  }
+  
+  if (lightchange_alg == 'smart sensor' && lightcounter > framediff){
+    lightcounter == 0;
+    if 
+  } else if (lightchange_alg == 'smart sensor'){
+    lightcounter == 0;
   }
     
   // Drawing the graphics
@@ -363,12 +389,12 @@ function draw() {
       drawcar(740,l1in[i],'up',l1in[i+1],l1in[i+2]);
     }
     
-    if (l1in[i] < 210 && l1in[i] != '' && lightchange_alg != 'two straights'){
-      if (l1in[i+2] == 'right'){
+    if (l1in[i] < 210 && l1in[i] != ''){
+      if (l1in[i+2] == 'right' && lightchange_alg != 'two straights'){
         l2out.push(l1in[i]+500);
         l2out.push(l1in[i+1]);
         l2out.push('none');
-      } else if (l1in[i+2] == 'left'){
+      } else if (l1in[i+2] == 'left' && lightchange_alg != 'two straights'){
         l4out.push(l1in[i]+500);
         l4out.push(l1in[i+1]);
         l4out.push('none');
@@ -380,7 +406,7 @@ function draw() {
       l1in.splice(i,1);
       l1in.splice(i+1,1);
       l1in.splice(i+2,1);
-    } else if (((l1in[i] < 275 || light1 == 'green') || (l1in[i]-l1in[i-3] > 100)) && !paused){
+    } else if ((light1 == 'green' || (Math.abs(l1in[i]-l1in[i-3]) > tailgate && l1in[i] > 300) || l1in[i] < 300) && !paused){
       l1in[i] = l1in[i]-1;
     }
     i += 3;
@@ -392,12 +418,12 @@ function draw() {
       drawcar(l2in[i],190,'left',l2in[i+1],l2in[i+2]);
     }
     
-    if (l2in[i] < 750 && l2in[i] != '' && lightchange_alg != 'two straights'){
-      if (l2in[i+2] == 'right'){
+    if (l2in[i] < 750 && l2in[i] != ''){
+      if (l2in[i+2] == 'right' && lightchange_alg != 'two straights'){
         l3out.push(l2in[i]-550);
         l3out.push(l2in[i+1]);
         l3out.push('none');
-      } else if (l2in[i+2] == 'left'){
+      } else if (l2in[i+2] == 'left' && lightchange_alg != 'two straights'){
         l1out.push(l2in[i]-550);
         l1out.push(l2in[i+1]);
         l1out.push('none');
@@ -409,7 +435,7 @@ function draw() {
       l2in.splice(i,1);
       l2in.splice(i+1,1);
       l2in.splice(i+2,1);
-    } else if ((light2 != 'red' || l2in[i] < 775 || (l2in[i]-l2in[i-3] > 100 && l2in[i] > 775)) && !paused){
+    } else if ((light2 == 'green' || (Math.abs(l2in[i]-l2in[i-3]) > tailgate && l2in[i] > 800) || l2in[i] < 800) && !paused){
       l2in[i] = l2in[i]-1;
     }
     i += 3;
@@ -421,12 +447,12 @@ function draw() {
       drawcar(690,l3in[i],'down',l3in[i+1],l3in[i+2]);
     }
     
-    if (l3in[i] > 150 && l3in[i] != '' && lightchange_alg != 'two straights'){
-      if (l3in[i+2] == 'right'){
+    if (l3in[i] > 150 && l3in[i] != ''){
+      if (l3in[i+2] == 'right'  && lightchange_alg != 'two straights'){
         l4out.push(l3in[i]+525);
         l4out.push(l3in[i+1]);
         l4out.push('none');
-      } else if (l3in[i+2] == 'left'){
+      } else if (l3in[i+2] == 'left'  && lightchange_alg != 'two straights'){
         l2out.push(l3in[i]+525);
         l2out.push(l3in[i+1]);
         l2out.push('none');
@@ -438,7 +464,8 @@ function draw() {
       l3in.splice(i,1);
       l3in.splice(i+1,1);
       l3in.splice(i+2,1);
-    } else if ((light3 != 'red' || l3in[i] > 100) && !paused){
+   // } else if ((light2 == 'green' || (l2in[i]-l2in[i-3] > tailgate && l2in[i] > 800) || l2in[i] < 800) && !paused){
+    } else if ((light3 == 'green' || (Math.abs(l3in[i-3]-l3in[i]) > tailgate && l3in[i] < 100) || l3in[i] > 100) && !paused){
       l3in[i] = l3in[i]+1;
     }
     i += 3;
@@ -450,12 +477,12 @@ function draw() {
       drawcar(l4in[i],240,'right',l4in[i+1],l4in[i+2]);
     }
     
-    if (l4in[i] > 610 && l4in[i] != '' && lightchange_alg != 'two straights'){
-      if (l4in[i+2] == 'right'){
+    if (l4in[i] > 610 && l4in[i] != ''){
+      if (l4in[i+2] == 'right'  && lightchange_alg != 'two straights'){
         l1out.push(l4in[i]-410);
         l1out.push(l4in[i+1]);
         l1out.push('none');
-      } else if (l4in[i+2] == 'left'){
+      } else if (l4in[i+2] == 'left'  && lightchange_alg != 'two straights'){
         l3out.push(l4in[i]-410);
         l3out.push(l4in[i+1]);
         l3out.push('none');
@@ -467,8 +494,10 @@ function draw() {
       l4in.splice(i,1);
       l4in.splice(i+1,1);
       l4in.splice(i+2,1);
-    } else if ((light4 != 'red' || l4in[i] > 600) && !paused){
+  //} else if ((light2 == 'green' || (l2in[i]-l2in[i-3] > tailgate && l2in[i] > 800) || l2in[i] < 800) && !paused){
+    } else if ((light4 == 'green' || (Math.abs(l4in[i-3]-l4in[i]) > 100 && l4in[i] < 575) || l4in[i] > 575) && !paused){
       l4in[i] = l4in[i]+1;
+      print(Math.abs(l4in[i-3]-l4in[i]));
     }
     i += 3;
   }
@@ -575,11 +604,11 @@ function draw() {
   textSize(25);
   text('Run/Pause          Reset',40,80);
   fill(0,150,200);
-  text('Traffic light algorithm',40,150);
-  text('Light change time',40,260);
-  text(20);
+  text('Traffic light algorithm',10,150);
+  text('Light change time',10,190);
+  textSize(15);
   fill(255);
-  text('One side at a time',40,200);
+  text(lightchange_alg,245,150);
   
   print(mouseX,mouseY) ;
   fill(255);
@@ -593,5 +622,10 @@ function mouseClicked(){
   }
   if (mouseX > 25 && mouseX < 175 && mouseY > 50 && mouseY < 100){
     paused = !paused;
+  }
+  if (mouseX < 375 && mouseY > 150 && mouseY < 175){
+    if (lightchange_alg == 'two straights'){
+      
+    }
   }
 }
