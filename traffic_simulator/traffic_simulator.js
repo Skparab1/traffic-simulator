@@ -1,5 +1,9 @@
 function setup() {
   createCanvas(windowWidth,windowHeight);
+  var r = random(2,6);
+  var r1 = random(2,6);
+  var r2 = random(2,6);
+  var r3 = random(2,6);
 }
 
 blinkervar = 0;
@@ -12,7 +16,9 @@ tailgate = 100;
 carcount = 4; // wait for 4 cars to let go
 smartrelease = 0;
 lastreleased = 0;
-
+timewaiting = 0;
+avgwaittime = 0;
+totalvehicles = 0;
 lightchange_alg = 'smart sensor';
 
 //lights
@@ -21,16 +27,25 @@ light2 = 'red';
 light3 = 'red';
 light4 = 'red';
 
+var l1out = [];
+var l2out = [];
+var l3out = [];
+var l4out = [];
+
 // l1in = y,clr,blinker
+
 var l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
 var l2in = [800,'blue','none',1000,'red','right',1150,'orange','right',1250,'green','right'];
 var l3in = [-350,'red','none',-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
 var l4in = [0,'red','left',400,'blue','left'];
 
-var l1out = [];
-var l2out = [];
-var l3out = [];
-var l4out = [];
+totalvehicles = l1in.length+l2in.length+l3in.length+l4in.length;
+
+var l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
+var l2in = [800,'blue','none',1000,'red','right',1150,'orange','right',1250,'green','right'];
+var l3in = [-350,'red','none',-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
+var l4in = [0,'red','left',400,'blue','left'];
+
 
 function randcolor(){
   rc = random(1,8);
@@ -191,6 +206,8 @@ function draw() {
   
   lastreleased = smartrelease;
   
+  avgwaittime = timewaiting/(l1in.length+l2in.length+l3in.length+l4in.length);
+  
   addcounter += 1;
   if (addcounter == 10*60){
     print('pushed');
@@ -208,6 +225,7 @@ function draw() {
       l4in.push(200);
       l4in.push('red');
       l4in.push('none');
+      totalvehicles += 1;
     }
     addcounter = 0;
   }
@@ -424,6 +442,8 @@ function draw() {
       l1in.splice(i+2,1);
     } else if ((light1 == 'green' || (Math.abs(l1in[i]-l1in[i-3]) > tailgate && l1in[i] > 300) || l1in[i] < 300) && !paused){
       l1in[i] = l1in[i]-1;
+    } else {
+      timewaiting += 1;
     }
     i += 3;
   }
@@ -453,6 +473,8 @@ function draw() {
       l2in.splice(i+2,1);
     } else if ((light2 == 'green' || (Math.abs(l2in[i]-l2in[i-3]) > tailgate && l2in[i] > 800) || l2in[i] < 800) && !paused){
       l2in[i] = l2in[i]-1;
+    } else {
+      timewaiting += 1;
     }
     i += 3;
   }
@@ -483,6 +505,8 @@ function draw() {
    // } else if ((light2 == 'green' || (l2in[i]-l2in[i-3] > tailgate && l2in[i] > 800) || l2in[i] < 800) && !paused){
     } else if ((light3 == 'green' || (Math.abs(l3in[i-3]-l3in[i]) > tailgate && l3in[i] < 100) || l3in[i] > 100) && !paused){
       l3in[i] = l3in[i]+1;
+    } else {
+      timewaiting += 1;
     }
     i += 3;
   }
@@ -513,6 +537,8 @@ function draw() {
   //} else if ((light2 == 'green' || (l2in[i]-l2in[i-3] > tailgate && l2in[i] > 800) || l2in[i] < 800) && !paused){
     } else if ((light4 == 'green' || (Math.abs(l4in[i-3]-l4in[i]) > 100 && l4in[i] < 575) || l4in[i] > 575) && !paused){
       l4in[i] = l4in[i]+1;
+    } else {
+      timewaiting += 1;
     }
     i += 3;
   }
@@ -620,6 +646,7 @@ function draw() {
   text('Run/Pause          Reset',40,80);
   fill(0,150,200);
   text('Traffic light algorithm',10,150);
+  text('Results:',380,50);
   
   if (lightchange_alg == 'two straights' || lightchange_alg == 'one side'){
     text('Light change time:  '+str(changetime)+ '  seconds',10,190);
@@ -631,8 +658,12 @@ function draw() {
   fill(255);
   text(lightchange_alg,245,150);
   
+  stroke(0);
   fill(0);
-  text('Results: average waiting time',400,100);
+  text('Average waiting time '+round(timewaiting/60,2),380,75);
+  text('Number of vehicles waiting at, apporaching',380,100);
+  text('or have been through intersection '+totalvehicles,380,125);
+  text('Results: average waiting time '+round((timewaiting/totalvehicles)/60,2)+' seconds',380,150);
  
 }
 
