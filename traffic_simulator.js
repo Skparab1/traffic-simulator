@@ -32,13 +32,19 @@ var l2out = [];
 var l3out = [];
 var l4out = [];
 
-var l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
-var l2in = [800,'blue','none',1000,'red','right',1150,'orange','right',1250,'green','right'];
-var l3in = [-350,'red','none',-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
-var l4in = [0,'red','left',400,'blue','left'];
+var rcolors = ['orange','blue','red','green','yellow','orange','white','purple','green'];
+var rblinkers = ['none','none','right','left','none','none'];
+
+console.log(Math.round(Math.random()*9));
+console.log(rcolors[Math.round(Math.random()*9)]);
+console.log(rblinkers[Math.round(Math.random()*6)]);
+
+var l1in = [700,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],600,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],500,rcolors[Math.round(Math.random()*9)],'right',400,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],300,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)]];
+var l2in = [800,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],1000,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],1150,rcolors[Math.round(Math.random()*9)],'right',1250,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)]];
+var l3in = [-350,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],-250,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],-150,rcolors[Math.round(Math.random()*9)],'none',-50,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],50,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)]];
+var l4in = [0,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],400,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)]];
 
 totalvehicles = l1in.length+l2in.length+l3in.length+l4in.length;
-
 
 function randcolor(){
   rc = random(1,8);
@@ -734,10 +740,11 @@ function mouseClicked(){
     l2out = [];
     l3out = [];
     l4out = [];
-    l1in = [700,'orange','none',600,'purple','none',500,'blue','right',400,'white','left',300,'yellow','none'];
-    l2in = [800,'blue','none',1000,'red','right',1150,'orange','right',1250,'green','right'];
-    l3in = [-350,'red','none',-250,'white','left',-150,'purple','none',-50,'blue','right',50,'green','right'];
-    l4in = [0,'red','left',400,'blue','left'];
+    l1in = [700,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],600,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],500,rcolors[Math.round(Math.random()*9)],'right',400,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],300,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)]];
+    l2in = [800,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],1000,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],1150,rcolors[Math.round(Math.random()*9)],'right',1250,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)]];
+    l3in = [-350,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],-250,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],-150,rcolors[Math.round(Math.random()*9)],'none',-50,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],50,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)]];
+    l4in = [0,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)],400,rcolors[Math.round(Math.random()*9)],rblinkers[Math.round(Math.random()*6)]];
+
     
     totalvehicles = l1in.length+l2in.length+l3in.length+l4in.length;
     lightcounter = -1;
