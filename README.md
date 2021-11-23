@@ -1,5 +1,5 @@
 # Traffic simulator
-Project for lec hacks. Built in less than 11 hours, Won 3rd place
+Project for lec hacks. Built in less than 11 hours, Won 3rd place. Can be used [here](https://skparab1.github.io/r/traffic).
 
 ![](ezgif.com-gif-maker(8).gif)
 
@@ -17,3 +17,6 @@ Project for lec hacks. Built in less than 11 hours, Won 3rd place
 - Runs with 48 cars, pushes cars into arrays one in a while, controlled by settings
 - Lets user change timing, such as light timing and car speed
 - User can change tailgate, the distance that cars tailgate each other
+
+## Media
+- [Demo video](https://skparab1.github.io/r/trafficvid).
