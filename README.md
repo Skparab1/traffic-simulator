@@ -1,5 +1,5 @@
 # Traffic simulator
-Project for lec hacks. Built in less than 11 hours, Won 3rd place. Can be used [here](https://skparab1.github.io/r/traffic).
+Project for a hackathon. Built in less than 11 hours, Won 3rd place. Can be used [here](https://skparab1.github.io/r/traffic).
 
 ![](ezgif.com-gif-maker(8).gif)
 
