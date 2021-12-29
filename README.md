@@ -6,7 +6,7 @@ Project for a hackathon. Built in less than 11 hours, Won 3rd place. Can be used
 ## How it works
 - Traffic simulator, which lets you change settings, speed, and light algorithms
 - Simulates the movement of cars on screen
-- Goves results of live wait times and algorithm efficiency
+- Gives results of live wait times and algorithm efficiency
 
 ## Used Libraries
 - p5.js graphics library
